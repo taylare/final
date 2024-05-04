@@ -121,6 +121,32 @@ fetch('json/mAirports.json')
                 const marker = L.marker([lat, lng], {icon: airportIcon}).addTo(map);
                 
                 //creating event listener for when airport marker is clicked:
+                marker.on('touchstart', function () {
+                    fetchWeatherData(lat, lng).then(weatherData => { //get weather data and display in a popup
+                        const weatherInfo = `Weather: ${weatherData.weatherDescription}, Temp: ${(weatherData.temperature - 273.15).toFixed(2)}°C`;
+                        marker.bindPopup(`${airport['Airport Name']}, ${airport['City Name']}, ${airport['Country']}<br>${weatherInfo}`).openPopup();
+                    }).catch(error => {
+                        console.error('Failed to fetch weather data:', error);
+                       
+                    });
+                    //calculating distance when 2 airports are clicked:
+                    if (selectedAirports.length < 2) {
+                        selectedAirports.push({ lat, lng, airport }); //if array < 1, push coordinates of selected airport onto the array
+                        if (selectedAirports.length === 2) { //if 2 airports are selected:
+                            const [airport1, airport2] = selectedAirports; //assign variables in array as airport1, airport2
+                            selectedDistance = calculateDistance(airport1.lat, airport1.lng, airport2.lat, airport2.lng);
+                            if (polyline) { //remove existing polyline(if there is one) and make a new one between the selected airports
+                                map.removeLayer(polyline);
+                            }
+                            polyline = L.polyline([[airport1.lat, airport1.lng], [airport2.lat, airport2.lng]], { color: 'aqua' }).addTo(map);
+                            map.fitBounds(polyline.getBounds()); // map view to include the entire route
+                            $('#flights').fadeIn(); //display flight cards w/ fade in
+                            displayFlights();
+                        }
+                    } 
+                });
+
+                //creating event listener for when airport marker is clicked:
                 marker.on('click', function () {
                     fetchWeatherData(lat, lng).then(weatherData => { //get weather data and display in a popup
                         const weatherInfo = `Weather: ${weatherData.weatherDescription}, Temp: ${(weatherData.temperature - 273.15).toFixed(2)}°C`;
@@ -143,14 +169,14 @@ fetch('json/mAirports.json')
                             $('#flights').fadeIn(); //display flight cards w/ fade in
                             displayFlights();
                         }
-                    } else {
-                        alert('Please refresh the page to select new airports.');
-                    }
+                    } 
                 });
+
             }
         });
     });
 
+    
 let flights = []; //store flight data from json file
 let cartItems = []; //will store flight items added to shopping cart
 let currentCategory = 'all'; //for the filter to display flights
