@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        #map {
+            height: 400px; 
+            font-family: "Press Start 2P", system-ui;
+            font-style: normal;
+            font-size: 6pt;
+            font-weight: lighter;
+            clip-path: polygon(
+                0px calc(100% - 10px),
+                5px calc(100% - 10px),
+                5px calc(100% - 5px),
+                10px calc(100% - 5px),
+                10px 100%,
+                calc(100% - 10px) 100%,
+                calc(100% - 10px) calc(100% - 5px),
+                calc(100% - 5px) calc(100% - 5px),
+                calc(100% - 5px) calc(100% - 10px),
+                100% calc(100% - 10px),
+                100% 10px,
+                calc(100% - 5px) 10px,
+                calc(100% - 5px) 5px,
+                calc(100% - 10px) 5px,
+                calc(100% - 10px) 0px,
+                10px 0px,
+                10px 5px,
+                5px 5px,
+                5px 10px,
+                0px 10px
+        )}
+        html, body {
+            height: 100vh;
+            margin: 0;
+            background-image: url('images/bg.png'); 
+            background-position: center; 
+            background-size: cover; 
+            font-family: "Press Start 2P", system-ui;
+            font-weight: 300;
+            font-size: 8pt;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center"> 
+        <button id="locateMe">Locate Me</button>
+    </div>
+    <div class="container">
+        <div id="map"></div>
+    </div>
+    <div class="container" id="flightsContainer">
+        <select id="categoryChooser">
+            <option value="all">Filter Flights</option>
+            <option value="duration">Duration of Flight</option>
+            <option value="cost">Cost to Company</option>
+            <option value="type">Type of Plane</option>
+        </select>
+        <button id="locateMe" class="cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">View Cart</button>
+        <div id="flights" class="row"></div>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 id="cartOffcanvasLabel">Cart</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" id="cartItems"></div>
+            <div id="totalSeatsBooked"></div>
+            <div id="totalCost"></div>
+            <div class="d-flex">
+                <button class="btn" id="bookFlightsBtn" data-bs-toggle="modal" data-bs-target="#bookingModal">Book</button>
+                <button class="btn" id="clearCartBtn">Clear Cart</button>
+            </div>    
+        </div>
+    </div>
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalLabel">Flight Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="bookingModalBody">
+                    <form id="bookingForm" class="needs-validation passenger-form" novalidate>
+                        <div id="passengerDetails">
+                            <div class="mb-3">
+                                <label for="employeeName" class="form-label">Employee Name</label>
+                                <input type="text" class="form-control" id="employeeName" name="employeeName" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid employee name.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid address.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" name="city" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid city.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="state" class="form-label">State/Province</label>
+                                <input type="text" class="form-control" id="state" name="state" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid state/province.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" class="form-control" id="country" name="country" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid country.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid phone number.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid email.
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn" id="addPassengerBtn">Add Another Passenger</button>
+                        <button type="submit" class="btn">Submit Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation Section -->
+    <section class="container">
+        <div  id="bookingConfirmation" class="text-center">
+            <h1>Booking Confirmation</h1>
+            <div id="passengerInfo"></div>
+            <div id="flightInfo"></div>
+            <div id="costInfo"></div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

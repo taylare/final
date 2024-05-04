@@ -1,0 +1,525 @@
+
+.cart-item {
+    margin-bottom: 15px;
+}
+
+#flights {
+    display: none;
+}
+
+.leaflet-container {
+    background: #31a2ac2d;
+}
+
+div#bookingConfirmation {
+    background-color: white;
+    border-radius: 2pt;
+    padding: 5%;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+section.container {
+    height: 100vh;
+    padding: 5%;
+}
+
+.book-flight-btn {
+    background-color: #bd18ff !important;
+    color: white;
+    padding: 2px;
+    border: 3px solid transparent;
+}
+
+.book-flight-btn {
+  clip-path: polygon(0px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px 100%,
+    calc(100% - 6px) 100%,
+    calc(100% - 6px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 6px),
+    100% calc(100% - 6px),
+    100% 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 0px,
+    6px 0px,
+    6px 3px,
+    3px 3px,
+    3px 6px,
+    0px 6px);
+  position: relative;
+}
+
+.book-flight-btn {
+  width: fit-content;
+  height: fit-content;
+}
+
+.book-flight-btn {
+  display: block; /*polygonal clip-path to create the pixel border (polygon connects points/coordinates)*/
+  clip-path: polygon(3px 6px, /*3 pixels right of the left edge, 6 pixels down from the top*/
+    6px 6px, /*moves horizontally 6 pixels right, but staying on the same vertical line*/
+    6px 3px, /*moves vertically 3 pixels down from the top, staying 6 pixels horizontally*/
+    calc(100% - 6px) 3px, /*moves almost to the far right of the element (width minus 6 pixels) but stays 3 pixels down from the top*/
+    calc(100% - 6px) 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) calc(100% - 6px), /*Stays at the same horizontal position (width minus 3 pixels) and moves up to 6 pixels from the bottom edge.*/
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 3px),
+    6px calc(100% - 3px), /* moves horizontally back to 6 pixels from the left edge, and up to 3 pixels from the bottom edge.*/
+    6px calc(100% - 6px), /*stays at 6 pixels from the left edge, moving up to 6 pixels from the bottom edge.*/
+    3px calc(100% - 6px));
+}
+.book-flight-btn::after { /*black pixel border*/
+  content: "";
+  position: absolute;
+  clip-path: polygon(0px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px 100%,
+    calc(100% - 6px) 100%,
+    calc(100% - 6px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 6px),
+    100% calc(100% - 6px),
+    100% 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 0px,
+    6px 0px,
+    6px 3px,
+    3px 3px,
+    3px 6px,
+    0px 6px,
+    0px 50%,
+    3px 50%,
+    3px 6px,
+    6px 6px,
+    6px 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px 50%,
+    0px 50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000000;
+  display: block;
+  pointer-events: none;
+}
+.book-flight-btn::after {
+  margin: -3px;
+}
+button.book-flight-btn.d-block.mx-auto {
+    padding: 7pt;
+    font-size: 11pt;
+}
+
+.pixel-card { /*creates a pixelated affect on the corner of the cards/manipulating the border w/ a clip-path moving the coordinates in a zigzaggy pattern*/
+    clip-path: polygon(0px calc(100% - 28px), /* starts from the bottom-left corner, 28px above the bottom */
+    4px calc(100% - 28px), /* moves 4px to the right at the same vertical level */
+    4px calc(100% - 20px), /* moves up 8px vertically, staying at 4px horizontally */
+    8px calc(100% - 20px), /* moves to 8px horizontally, same vertical level */
+    8px calc(100% - 12px), /* moves up another 8px vertically, staying at 8px horizontally */
+    12px calc(100% - 12px), /* moves to 12px horizontally, same vertical level */
+    12px calc(100% - 8px), /* moves up 4px vertically, staying at 12px horizontally */
+    20px calc(100% - 8px), /* moves to 20px horizontally, same vertical level */
+    20px calc(100% - 4px), /* moves up 4px vertically, staying at 20px horizontally */
+    28px calc(100% - 4px), /* moves to 28px horizontally, same vertical level */
+    28px 100%, /* drops down to the bottom edge, staying at 28px horizontally */
+    calc(100% - 28px) 100%, /* moves horizontally near the right edge, staying at the bottom */
+    calc(100% - 28px) calc(100% - 4px), /* moves up 4px from the bottom, staying at the same horizontal level */
+    calc(100% - 20px) calc(100% - 4px), /* moves to left at the '20px from right' mark, same vertical level */
+    calc(100% - 20px) calc(100% - 8px), /* moves up 4px vertically, staying at the same horizontal level */
+    calc(100% - 12px) calc(100% - 8px), /* moves to the left at the '12px from right' mark, same vertical level */
+    calc(100% - 12px) calc(100% - 12px), /* moves up another 4px vertically, same horizontal level */
+    calc(100% - 8px) calc(100% - 12px), /* moves to left at '8px from right' mark, same vertical level */
+    calc(100% - 8px) calc(100% - 20px), /* moves up 8px vertically, same horizontal level */
+    calc(100% - 4px) calc(100% - 20px), /* moves to left at '4px from right' mark, same vertical level */
+    calc(100% - 4px) calc(100% - 28px), /* moves up 8px vertically, same horizontal level */
+    100% calc(100% - 28px), /* moves to the very right edge, 28px above the bottom */
+    100% 28px, /* moves up to 28px from the top, staying at the right edge */
+    calc(100% - 4px) 28px, /* moves left to '4px from right', at 28px from the top */
+    calc(100% - 4px) 20px, /* moves down 8px vertically, same horizontal level */
+    calc(100% - 8px) 20px, /* moves left to '8px from right', same vertical level */
+    calc(100% - 8px) 12px, /* moves down another 8px vertically, same horizontal level */
+    calc(100% - 12px) 12px, /* moves left to '12px from right', same vertical level */
+    calc(100% - 12px) 8px, /* moves down 4px vertically, same horizontal level */
+    calc(100% - 20px) 8px, /* moves left to '20px from right', same vertical level */
+    calc(100% - 20px) 4px, /* moves down 4px vertically, same horizontal level */
+    calc(100% - 28px) 4px, /* moves left to '28px from right', same vertical level */
+    calc(100% - 28px) 0px, /* moves to the very top, staying at the same horizontal level */
+    28px 0px, /* moves left to 28px from the left edge, at the very top */
+    28px 4px, /* moves down 4px vertically, same horizontal level */
+    20px 4px, /* moves left to 20px horizontally, same vertical level */
+    20px 8px, /* moves down 4px vertically, same horizontal level */
+    12px 8px, /* moves left to 12px horizontally, same vertical level */
+    12px 12px, /* moves down 4px vertically, same horizontal level */
+    8px 12px, /* moves left to 8px horizontally, same vertical level */
+    8px 20px, /* moves down 8px vertically, same horizontal level */
+    4px 20px, /* moves left to 4px horizontally, same vertical level */
+    4px 28px, /* moves down 8px vertically, reaching the starting vertical level */
+    0px 28px /* returns to the starting point at the bottom-left corner, completing the pixelated corners */
+);
+  position: relative;
+}
+.pixel-card {
+  border: 4px solid transparent;
+}
+.pixel-card {
+  width: fit-content;
+  height: fit-content;
+}
+
+.pixel-card::after { /*creates a black border using the same clip-path to make the pixelated effect*/
+  content: "";
+  position: absolute;
+  clip-path: polygon(0px calc(100% - 28px),
+    4px calc(100% - 28px),
+    4px calc(100% - 20px),
+    8px calc(100% - 20px),
+    8px calc(100% - 12px),
+    12px calc(100% - 12px),
+    12px calc(100% - 8px),
+    20px calc(100% - 8px),
+    20px calc(100% - 4px),
+    28px calc(100% - 4px),
+    28px 100%,
+    calc(100% - 28px) 100%,
+    calc(100% - 28px) calc(100% - 4px),
+    calc(100% - 20px) calc(100% - 4px),
+    calc(100% - 20px) calc(100% - 8px),
+    calc(100% - 12px) calc(100% - 8px),
+    calc(100% - 12px) calc(100% - 12px),
+    calc(100% - 8px) calc(100% - 12px),
+    calc(100% - 8px) calc(100% - 20px),
+    calc(100% - 4px) calc(100% - 20px),
+    calc(100% - 4px) calc(100% - 28px),
+    100% calc(100% - 28px),
+    100% 28px,
+    calc(100% - 4px) 28px,
+    calc(100% - 4px) 20px,
+    calc(100% - 8px) 20px,
+    calc(100% - 8px) 12px,
+    calc(100% - 12px) 12px,
+    calc(100% - 12px) 8px,
+    calc(100% - 20px) 8px,
+    calc(100% - 20px) 4px,
+    calc(100% - 28px) 4px,
+    calc(100% - 28px) 0px,
+    28px 0px,
+    28px 4px,
+    20px 4px,
+    20px 8px,
+    12px 8px,
+    12px 12px,
+    8px 12px,
+    8px 20px,
+    4px 20px,
+    4px 28px,
+    0px 28px,
+    0px 50%,
+    4px 50%,
+    4px 28px,
+    8px 28px,
+    8px 20px,
+    12px 20px,
+    12px 12px,
+    20px 12px,
+    20px 8px,
+    28px 8px,
+    28px 4px,
+    calc(100% - 28px) 4px,
+    calc(100% - 28px) 8px,
+    calc(100% - 20px) 8px,
+    calc(100% - 20px) 12px,
+    calc(100% - 12px) 12px,
+    calc(100% - 12px) 20px,
+    calc(100% - 8px) 20px,
+    calc(100% - 8px) 28px,
+    calc(100% - 4px) 28px,
+    calc(100% - 4px) calc(100% - 28px),
+    calc(100% - 8px) calc(100% - 28px),
+    calc(100% - 8px) calc(100% - 20px),
+    calc(100% - 12px) calc(100% - 20px),
+    calc(100% - 12px) calc(100% - 12px),
+    calc(100% - 20px) calc(100% - 12px),
+    calc(100% - 20px) calc(100% - 8px),
+    calc(100% - 28px) calc(100% - 8px),
+    calc(100% - 28px) calc(100% - 4px),
+    28px calc(100% - 4px),
+    28px calc(100% - 8px),
+    20px calc(100% - 8px),
+    20px calc(100% - 12px),
+    12px calc(100% - 12px),
+    12px calc(100% - 20px),
+    8px calc(100% - 20px),
+    8px calc(100% - 28px),
+    4px calc(100% - 28px),
+    4px 50%,
+    0px 50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000000;
+  display: block;
+  pointer-events: none;
+}
+.pixel-card::after {
+    margin: -4px;
+}
+
+#locateMeContainer {
+    text-align: center;  /* Center aligns the content */
+    margin-top: 20px;    /* Adds some space above the button */
+    margin-bottom: 20px; /* Adds some space below the button before the map starts */
+}
+
+#locateMe{
+    background-color:#ea00ff;
+    color: white;
+    padding: 1%;
+}
+#locateMe{
+    clip-path: polygon(0px calc(100% - 6px),
+      3px calc(100% - 6px),
+      3px calc(100% - 3px),
+      6px calc(100% - 3px),
+      6px 100%,
+      calc(100% - 6px) 100%,
+      calc(100% - 6px) calc(100% - 3px),
+      calc(100% - 3px) calc(100% - 3px),
+      calc(100% - 3px) calc(100% - 6px),
+      100% calc(100% - 6px),
+      100% 6px,
+      calc(100% - 3px) 6px,
+      calc(100% - 3px) 3px,
+      calc(100% - 6px) 3px,
+      calc(100% - 6px) 0px,
+      6px 0px,
+      6px 3px,
+      3px 3px,
+      3px 6px,
+      0px 6px);
+    position: relative;
+  }
+#locateMe {
+    border: 3px solid transparent;
+}
+#locateMe--wrapper {
+    width: fit-content;
+    height: fit-content;
+}
+#locateMe--wrapper #locateMe {
+    display: block;
+    clip-path: polygon(3px 6px,
+        6px 6px,
+        6px 3px,
+        calc(100% - 6px) 3px,
+        calc(100% - 6px) 6px,
+        calc(100% - 3px) 6px,
+        calc(100% - 3px) calc(100% - 6px),
+        calc(100% - 6px) calc(100% - 6px),
+        calc(100% - 6px) calc(100% - 3px),
+        6px calc(100% - 3px),
+        6px calc(100% - 6px),
+        3px calc(100% - 6px));
+}
+#locateMe::after {
+    content: "";
+    position: absolute;
+    clip-path: polygon(0px calc(100% - 6px),
+        3px calc(100% - 6px),
+        3px calc(100% - 3px),
+        6px calc(100% - 3px),
+        6px 100%,
+        calc(100% - 6px) 100%,
+        calc(100% - 6px) calc(100% - 3px),
+        calc(100% - 3px) calc(100% - 3px),
+        calc(100% - 3px) calc(100% - 6px),
+        100% calc(100% - 6px),
+        100% 6px,
+        calc(100% - 3px) 6px,
+        calc(100% - 3px) 3px,
+        calc(100% - 6px) 3px,
+        calc(100% - 6px) 0px,
+        6px 0px,
+        6px 3px,
+        3px 3px,
+        3px 6px,
+        0px 6px,
+        0px 50%,
+        3px 50%,
+        3px 6px,
+        6px 6px,
+        6px 3px,
+        calc(100% - 6px) 3px,
+        calc(100% - 6px) 6px,
+        calc(100% - 3px) 6px,
+        calc(100% - 3px) calc(100% - 6px),
+        calc(100% - 6px) calc(100% - 6px),
+        calc(100% - 6px) calc(100% - 3px),
+        6px calc(100% - 3px),
+        6px calc(100% - 6px),
+        3px calc(100% - 6px),
+        3px 50%,
+        0px 50%);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #000000;
+        display: block;
+        pointer-events: none;
+}
+#locateMe::after {
+    margin: -3px;
+}
+
+.leaflet-popup-content-wrapper {
+    clip-path: polygon(
+        0px calc(100% - 5px),
+        5px calc(100% - 5px),
+        5px 100%,
+        calc(100% - 5px) 100%,
+        calc(100% - 5px) calc(100% - 5px),
+        100% calc(100% - 5px),
+        100% 5px,
+        calc(100% - 5px) 5px,
+        calc(100% - 5px) 0px,
+        5px 0px,
+        5px 5px,
+        0px 5px
+        );
+    border-radius: 0%;
+}
+.btn{
+    background-color: aqua;
+    color: white;
+    padding: 5pt;
+}
+.btn,
+.btn--wrapper {
+  clip-path: polygon(0px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px 100%,
+    calc(100% - 6px) 100%,
+    calc(100% - 6px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 6px),
+    100% calc(100% - 6px),
+    100% 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 0px,
+    6px 0px,
+    6px 3px,
+    3px 3px,
+    3px 6px,
+    0px 6px);
+  position: relative;
+}
+.btn {
+  border: 3px solid transparent;
+}
+.btn--wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+.btn--wrapper{
+  display: block;
+  clip-path: polygon(3px 6px,
+    6px 6px,
+    6px 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px calc(100% - 6px),
+    3px calc(100% - 6px));
+}
+.btn::after,
+.btn--wrapper::after {
+  content: "";
+  position: absolute;
+  clip-path: polygon(0px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px 100%,
+    calc(100% - 6px) 100%,
+    calc(100% - 6px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 6px),
+    100% calc(100% - 6px),
+    100% 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 0px,
+    6px 0px,
+    6px 3px,
+    3px 3px,
+    3px 6px,
+    0px 6px,
+    0px 50%,
+    3px 50%,
+    3px 6px,
+    6px 6px,
+    6px 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px 50%,
+    0px 50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000000;
+  display: block;
+  pointer-events: none;
+}
+.btn::after {
+  margin: -3px;
+}
+
+button#clearCartBtn {
+    background-color: #fd49f7;
+}
+
+button#bookFlightsBtn:hover {
+    background-color: #fd49f7;
+}
+
+button#clearCartBtn:hover {
+    background-color:aqua;
+}
