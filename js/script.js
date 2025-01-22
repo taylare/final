@@ -3,7 +3,7 @@ const map = L.map('map');
 
 //custom markers
 const myIcon = L.icon({
-    iconUrl: 'images/usericon.png',
+    iconUrl: 'images/user.png',
     iconSize: [36, 36],//width, height
     popupAnchor: [0, -25], 
     clickable: true,  // interact with mouse clicks
@@ -12,7 +12,7 @@ const myIcon = L.icon({
 });
 
 const airportIcon = L.icon({
-    iconUrl: 'images/floweruser.png',
+    iconUrl: 'images/airport.png',
     iconSize: [40, 40],               
     popupAnchor: [0, -30]          
 });
